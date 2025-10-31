@@ -1,0 +1,508 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Facebook Leads Dashboard</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background-color: #f0f2f5;
+      padding: 20px;
+    }
+
+    .header {
+      background: white;
+      padding: 20px 30px;
+      border-radius: 10px;
+      margin-bottom: 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    }
+
+    .header h1 {
+      color: #1877f2;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .user-info {
+      display: flex;
+      align-items: center;
+      gap: 15px;
+    }
+
+    .btn {
+      padding: 10px 20px;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      font-size: 14px;
+      font-weight: 600;
+      text-decoration: none;
+      display: inline-block;
+      transition: all 0.3s ease;
+    }
+
+    .btn-primary {
+      background-color: #1877f2;
+      color: white;
+    }
+
+    .btn-primary:hover {
+      background-color: #166fe5;
+    }
+
+    .btn-success {
+      background-color: #42b72a;
+      color: white;
+    }
+
+    .btn-success:hover {
+      background-color: #36a420;
+    }
+
+    .btn-secondary {
+      background-color: #e4e6eb;
+      color: #333;
+    }
+
+    .btn-secondary:hover {
+      background-color: #d8dadf;
+    }
+
+    .controls {
+      background: white;
+      padding: 20px;
+      border-radius: 10px;
+      margin-bottom: 20px;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    }
+
+    .controls-row {
+      display: flex;
+      gap: 15px;
+      flex-wrap: wrap;
+      align-items: center;
+    }
+
+    select {
+      padding: 10px 15px;
+      border: 1px solid #ddd;
+      border-radius: 6px;
+      font-size: 14px;
+      min-width: 200px;
+    }
+
+    .stats {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 20px;
+      margin-bottom: 20px;
+    }
+
+    .stat-card {
+      background: white;
+      padding: 25px;
+      border-radius: 10px;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+      text-align: center;
+    }
+
+    .stat-number {
+      font-size: 36px;
+      font-weight: bold;
+      color: #1877f2;
+      margin-bottom: 10px;
+    }
+
+    .stat-label {
+      color: #666;
+      font-size: 14px;
+    }
+
+    .table-container {
+      background: white;
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+      overflow-x: auto;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+
+    th {
+      background-color: #f0f2f5;
+      padding: 15px;
+      text-align: left;
+      font-weight: 600;
+      color: #333;
+      border-bottom: 2px solid #e4e6eb;
+    }
+
+    td {
+      padding: 15px;
+      border-bottom: 1px solid #e4e6eb;
+      color: #555;
+    }
+
+    tr:hover {
+      background-color: #f8f9fa;
+    }
+
+    .loading {
+      text-align: center;
+      padding: 40px;
+      color: #666;
+    }
+
+    .spinner {
+      border: 3px solid #f3f3f3;
+      border-top: 3px solid #1877f2;
+      border-radius: 50%;
+      width: 40px;
+      height: 40px;
+      animation: spin 1s linear infinite;
+      margin: 0 auto 20px;
+    }
+
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+
+    .empty-state {
+      text-align: center;
+      padding: 60px 20px;
+      color: #666;
+    }
+
+    .empty-state-icon {
+      font-size: 64px;
+      margin-bottom: 20px;
+    }
+
+    .toast {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      background: #42b72a;
+      color: white;
+      padding: 15px 25px;
+      border-radius: 8px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+      display: none;
+      animation: slideIn 0.3s ease;
+    }
+
+    @keyframes slideIn {
+      from {
+        transform: translateX(400px);
+      }
+      to {
+        transform: translateX(0);
+      }
+    }
+
+    .toast.show {
+      display: block;
+    }
+  </style>
+</head>
+<body>
+  <!-- Header -->
+  <div class="header">
+    <h1>
+      <span>📊</span>
+      Facebook Leads Dashboard
+    </h1>
+    <div class="user-info">
+      <span>Welcome, <strong><%= user.name %></strong></span>
+      <a href="/logout" class="btn btn-secondary">Logout</a>
+    </div>
+  </div>
+
+  <!-- Controls -->
+  <div class="controls">
+    <div class="controls-row">
+      <select id="adAccountSelect">
+        <option value="">Select Ad Account...</option>
+      </select>
+      <select id="leadFormSelect" disabled>
+        <option value="">Select Lead Form...</option>
+      </select>
+      <button class="btn btn-primary" onclick="fetchLeads()" id="fetchBtn" disabled>
+        Fetch Leads
+      </button>
+      <button class="btn btn-success" onclick="syncAllLeads()">
+        🔄 Sync All Leads
+      </button>
+      <button class="btn btn-success" onclick="exportCSV()" id="exportBtn">
+        📥 Export CSV
+      </button>
+    </div>
+  </div>
+
+  <!-- Stats -->
+  <div class="stats">
+    <div class="stat-card">
+      <div class="stat-number" id="totalLeads">0</div>
+      <div class="stat-label">Total Leads</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-number" id="totalAccounts">0</div>
+      <div class="stat-label">Ad Accounts</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-number" id="totalForms">0</div>
+      <div class="stat-label">Lead Forms</div>
+    </div>
+  </div>
+
+  <!-- Table -->
+  <div class="table-container">
+    <div id="loading" class="loading" style="display: none;">
+      <div class="spinner"></div>
+      <p>Loading data...</p>
+    </div>
+
+    <div id="emptyState" class="empty-state">
+      <div class="empty-state-icon">📋</div>
+      <h3>No leads yet</h3>
+      <p>Select an ad account and lead form to fetch leads</p>
+    </div>
+
+    <table id="leadsTable" style="display: none;">
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Email</th>
+          <th>Phone</th>
+          <th>Created Time</th>
+          <th>Form ID</th>
+        </tr>
+      </thead>
+      <tbody id="leadsTableBody">
+        <!-- Populated dynamically -->
+      </tbody>
+    </table>
+  </div>
+
+  <!-- Toast Notification -->
+  <div id="toast" class="toast"></div>
+
+  <script>
+    let leads = [];
+    let adAccounts = [];
+    let leadForms = [];
+
+    // Show toast notification
+    function showToast(message) {
+      const toast = document.getElementById('toast');
+      toast.textContent = message;
+      toast.classList.add('show');
+      setTimeout(() => {
+        toast.classList.remove('show');
+      }, 3000);
+    }
+
+    // Load ad accounts on page load
+    async function loadAdAccounts() {
+      try {
+        showLoading(true);
+        const response = await fetch('/api/ad-accounts');
+        const data = await response.json();
+        
+        if (data.success) {
+          adAccounts = data.accounts;
+          const select = document.getElementById('adAccountSelect');
+          select.innerHTML = '<option value="">Select Ad Account...</option>';
+          
+          data.accounts.forEach(account => {
+            const option = document.createElement('option');
+            option.value = account.id;
+            option.textContent = `${account.name} (${account.account_id})`;
+            select.appendChild(option);
+          });
+          
+          document.getElementById('totalAccounts').textContent = data.accounts.length;
+          showToast(`Loaded ${data.accounts.length} ad accounts`);
+        }
+        showLoading(false);
+      } catch (error) {
+        console.error('Error loading ad accounts:', error);
+        showToast('Error loading ad accounts');
+        showLoading(false);
+      }
+    }
+
+    // Load lead forms when ad account is selected
+    document.getElementById('adAccountSelect').addEventListener('change', async (e) => {
+      const accountId = e.target.value;
+      const formSelect = document.getElementById('leadFormSelect');
+      
+      if (!accountId) {
+        formSelect.disabled = true;
+        formSelect.innerHTML = '<option value="">Select Lead Form...</option>';
+        return;
+      }
+      
+      try {
+        showLoading(true);
+        const response = await fetch(`/api/lead-forms/${accountId}`);
+        const data = await response.json();
+        
+        if (data.success) {
+          leadForms = data.forms;
+          formSelect.innerHTML = '<option value="">Select Lead Form...</option>';
+          
+          data.forms.forEach(form => {
+            const option = document.createElement('option');
+            option.value = form.id;
+            option.textContent = `${form.name} (${form.leads_count || 0} leads)`;
+            formSelect.appendChild(option);
+          });
+          
+          formSelect.disabled = false;
+          document.getElementById('totalForms').textContent = data.forms.length;
+          showToast(`Loaded ${data.forms.length} lead forms`);
+        }
+        showLoading(false);
+      } catch (error) {
+        console.error('Error loading lead forms:', error);
+        showToast('Error loading lead forms');
+        showLoading(false);
+      }
+    });
+
+    // Enable fetch button when form is selected
+    document.getElementById('leadFormSelect').addEventListener('change', (e) => {
+      document.getElementById('fetchBtn').disabled = !e.target.value;
+    });
+
+    // Fetch leads for selected form
+    async function fetchLeads() {
+      const formId = document.getElementById('leadFormSelect').value;
+      
+      if (!formId) {
+        showToast('Please select a lead form');
+        return;
+      }
+      
+      try {
+        showLoading(true);
+        const response = await fetch(`/api/leads/${formId}`);
+        const data = await response.json();
+        
+        if (data.success) {
+          leads = data.leads;
+          displayLeads(leads);
+          document.getElementById('totalLeads').textContent = leads.length;
+          showToast(`Fetched ${leads.length} leads`);
+        }
+        showLoading(false);
+      } catch (error) {
+        console.error('Error fetching leads:', error);
+        showToast('Error fetching leads');
+        showLoading(false);
+      }
+    }
+
+    // Sync all leads from all forms
+    async function syncAllLeads() {
+      if (!confirm('This will sync all leads from all ad accounts. Continue?')) {
+        return;
+      }
+      
+      try {
+        showLoading(true);
+        const response = await fetch('/api/sync-leads', { method: 'POST' });
+        const data = await response.json();
+        
+        if (data.success) {
+          showToast(data.message);
+          loadAllLeads();
+        }
+        showLoading(false);
+      } catch (error) {
+        console.error('Error syncing leads:', error);
+        showToast('Error syncing leads');
+        showLoading(false);
+      }
+    }
+
+    // Load all leads from Firebase
+    async function loadAllLeads() {
+      try {
+        showLoading(true);
+        const response = await fetch('/api/leads');
+        const data = await response.json();
+        
+        if (data.success) {
+          leads = data.leads;
+          displayLeads(leads);
+          document.getElementById('totalLeads').textContent = leads.length;
+        }
+        showLoading(false);
+      } catch (error) {
+        console.error('Error loading leads:', error);
+        showLoading(false);
+      }
+    }
+
+    // Display leads in table
+    function displayLeads(leadsData) {
+      const tbody = document.getElementById('leadsTableBody');
+      const table = document.getElementById('leadsTable');
+      const emptyState = document.getElementById('emptyState');
+      
+      if (leadsData.length === 0) {
+        table.style.display = 'none';
+        emptyState.style.display = 'block';
+        return;
+      }
+      
+      tbody.innerHTML = leadsData.map(lead => `
+        <tr>
+          <td>${lead.name || 'N/A'}</td>
+          <td>${lead.email || 'N/A'}</td>
+          <td>${lead.phone || 'N/A'}</td>
+          <td>${new Date(lead.createdTime).toLocaleString()}</td>
+          <td>${lead.formId || 'N/A'}</td>
+        </tr>
+      `).join('');
+      
+      table.style.display = 'table';
+      emptyState.style.display = 'none';
+    }
+
+    // Export to CSV
+    function exportCSV() {
+      window.location.href = '/export/leads';
+    }
+
+    // Show/hide loading
+    function showLoading(show) {
+      document.getElementById('loading').style.display = show ? 'block' : 'none';
+    }
+
+    // Initialize on page load
+    window.onload = () => {
+      loadAdAccounts();
+      loadAllLeads();
+    };
+  </script>
+</body>
+</html>

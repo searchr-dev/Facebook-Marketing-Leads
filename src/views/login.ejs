@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Facebook Leads Dashboard - Login</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 20px;
+    }
+
+    .login-container {
+      background: white;
+      border-radius: 20px;
+      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+      padding: 60px 40px;
+      text-align: center;
+      max-width: 450px;
+      width: 100%;
+    }
+
+    .logo {
+      font-size: 48px;
+      margin-bottom: 20px;
+    }
+
+    h1 {
+      color: #333;
+      font-size: 28px;
+      margin-bottom: 10px;
+    }
+
+    p {
+      color: #666;
+      margin-bottom: 30px;
+      line-height: 1.6;
+    }
+
+    .fb-login-btn {
+      background-color: #1877f2;
+      color: white;
+      border: none;
+      padding: 15px 40px;
+      font-size: 16px;
+      font-weight: 600;
+      border-radius: 8px;
+      cursor: pointer;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      transition: background-color 0.3s ease, transform 0.1s ease;
+    }
+
+    .fb-login-btn:hover {
+      background-color: #166fe5;
+      transform: translateY(-2px);
+    }
+
+    .fb-login-btn:active {
+      transform: translateY(0);
+    }
+
+    .features {
+      margin-top: 40px;
+      text-align: left;
+    }
+
+    .feature-item {
+      display: flex;
+      align-items: center;
+      gap: 15px;
+      margin-bottom: 15px;
+      color: #555;
+    }
+
+    .feature-icon {
+      font-size: 24px;
+    }
+
+    .footer {
+      margin-top: 40px;
+      color: #999;
+      font-size: 14px;
+    }
+  </style>
+</head>
+<body>
+  <div class="login-container">
+    <div class="logo">📊</div>
+    <h1>Facebook Leads Dashboard</h1>
+    <p>Connect your Facebook account to manage and export your lead ads data</p>
+    
+    <a href="/auth/facebook" class="fb-login-btn">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+        <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/>
+      </svg>
+      Login with Facebook
+    </a>
+
+    <div class="features">
+      <div class="feature-item">
+        <span class="feature-icon">✅</span>
+        <span>Access all your lead ads campaigns</span>
+      </div>
+      <div class="feature-item">
+        <span class="feature-icon">📥</span>
+        <span>Download leads as CSV</span>
+      </div>
+      <div class="feature-item">
+        <span class="feature-icon">🔒</span>
+        <span>Secure OAuth 2.0 authentication</span>
+      </div>
+      <div class="feature-item">
+        <span class="feature-icon">☁️</span>
+        <span>Cloud storage with Firebase</span>
+      </div>
+    </div>
+
+    <div class="footer">
+      Powered by Meta Marketing API & Firebase
+    </div>
+  </div>
+</body>
+</html>
