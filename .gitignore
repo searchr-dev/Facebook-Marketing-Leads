@@ -23,6 +23,7 @@ yarn-error.log*
 .env.development
 .env.production
 .gitignore
+.gitignore
 
 # -----------------------------
 # 🔥 Firebase Credentials
