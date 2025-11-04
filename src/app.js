@@ -1,8 +1,9 @@
 require('dotenv').config();
 const express = require('express');
 const session = require('express-session');
-const passport = require('passport');
 const path = require('path');
+const passport = require('passport');
+
 
 // Import routes
 const authRoutes = require('./routes/auth');

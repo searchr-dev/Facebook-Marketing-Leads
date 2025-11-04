@@ -1,0 +1,29 @@
+{
+  "name": "facebook-leads-app",
+  "version": "1.0.0",
+  "description": "**Facebook Leads App** is a **Node.js web application** that integrates with the **Meta (Facebook) Marketing API** to fetch, store, and display **Lead Ads data** in real time.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/searchr-dev/Facebook-Marketing-Leads.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/searchr-dev/Facebook-Marketing-Leads/issues"
+  },
+  "homepage": "https://github.com/searchr-dev/Facebook-Marketing-Leads#readme",
+  "dependencies": {
+    "axios": "^1.13.1",
+    "csv-writer": "^1.6.0",
+    "dotenv": "^17.2.3",
+    "ejs": "^3.1.10",
+    "express": "^5.1.0",
+    "express-session": "^1.18.2",
+    "firebase-admin": "^13.5.0"
+  }
+}
