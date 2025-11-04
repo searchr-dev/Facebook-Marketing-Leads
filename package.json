@@ -2,8 +2,9 @@
   "name": "facebook-leads-app",
   "version": "1.0.0",
   "description": "**Facebook Leads App** is a **Node.js web application** that integrates with the **Meta (Facebook) Marketing API** to fetch, store, and display **Lead Ads data** in real time.",
-  "main": "index.js",
+  "main": "app.js",
   "scripts": {
+    "dev": "app.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
@@ -24,6 +25,10 @@
     "ejs": "^3.1.10",
     "express": "^5.1.0",
     "express-session": "^1.18.2",
-    "firebase-admin": "^13.5.0"
+    "facebook-nodejs-business-sdk": "^24.0.0",
+    "firebase-admin": "^13.5.0",
+    "json2csv": "^6.0.0-alpha.2",
+    "passport": "^0.7.0",
+    "passport-facebook": "^3.0.0"
   }
 }

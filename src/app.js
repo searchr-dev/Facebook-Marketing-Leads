@@ -12,6 +12,12 @@ const exportRoutes = require('./routes/export');
 
 const app = express();
 
+// console.log("App ID:", process.env.FACEBOOK_APP_ID);
+// console.log("App Secret:", process.env.FACEBOOK_APP_SECRET);
+
+
+
+
 // View engine setup
 app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, 'views'));
@@ -91,11 +97,21 @@ app.use((err, req, res, next) => {
   });
 });
 
-// Start server
-const PORT = process.env.PORT || 3000;
+const HOST = process.env.HOST ;
+const PORT = process.env.PORT ;
+
 app.listen(PORT, () => {
-  console.log(`🚀 Server running on http://localhost:${PORT}`);
-  console.log(`📊 Dashboard will be available at http://localhost:${PORT}/dashboard`);
+  console.log(`🚀 Server running at: http://${HOST}:${PORT}`);
+  console.log(`📊 Dashboard: http://${HOST}:${PORT}/dashboard`);
 });
 
+// const HOST = process.env.HOST || 'localhost';
+// const PORT = process.env.PORT || 3000;
+// // Listen on host + port from .env
+// app.listen(PORT, HOST, () => {
+//   console.log(`✅ Server running at: http://${HOST}:${PORT}`);
+//   console.log(`📊 Dashboard will be available at http://${HOST}:${PORT}/dashboard`);
+// });
+
 module.exports = app;
+// module.exports = app;
