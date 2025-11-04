@@ -98,8 +98,8 @@ For licensing inquiries or permissions, please contact:
 
 ## 👤 Author
 **`_searchr_ (Param Panchal)`**  
-📧 Email: [parampanchal914@gmail.com](mailto:parampanchal914@gmail.com)  
-🌐 Instagram: [_searchr_](https://www.instagram.com/_searchr_/)
+📧 Email: [ parampanchal914@gmail.com ](mailto:parampanchal914@gmail.com)  
+🌐 Instagram: [ _searchr_ ](https://www.instagram.com/_searchr_/)
 
 ---
 
