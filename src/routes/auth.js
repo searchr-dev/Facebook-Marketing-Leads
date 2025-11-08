@@ -72,7 +72,9 @@ router.get('/auth/facebook',
       'ads_read', 
       'leads_retrieval',
       'pages_read_engagement',
-      'read_insights'
+      'read_insights',
+      'public_profile',
+      'email'
     ]
   })
 );
