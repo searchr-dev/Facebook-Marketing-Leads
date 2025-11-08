@@ -68,13 +68,11 @@ async function exchangeForLongLivedToken(shortToken) {
 router.get('/auth/facebook', 
   passport.authenticate('facebook', { 
     scope: [
-      // 'ads_management',
-      // 'ads_read', 
-      // 'leads_retrieval',
-      // 'pages_read_engagement',
-      // 'read_insights',
-      'public_profile',
-      'email'
+      'ads_management',
+      'ads_read', 
+      'leads_retrieval',
+      'pages_read_engagement',
+      'read_insights'
     ]
   })
 );
