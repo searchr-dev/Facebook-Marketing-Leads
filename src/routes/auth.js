@@ -68,14 +68,18 @@ async function exchangeForLongLivedToken(shortToken) {
 router.get('/auth/facebook', 
   passport.authenticate('facebook', { 
     scope: [
-      'ads_management',
-      'ads_read', 
-      'leads_retrieval',
-      'pages_read_engagement',
-      'read_insights'
+      'email',                    // ✅ Basic - Auto-granted
+      'public_profile',           // ✅ Basic - Auto-granted
+      // Uncomment these AFTER getting Advanced Access approved:
+      // 'ads_management',
+      // 'ads_read', 
+      // 'leads_retrieval',
+      // 'pages_read_engagement',
+      // 'read_insights'
     ]
   })
 );
+
 
 // Facebook OAuth callback
 router.get('/auth/facebook/callback',
